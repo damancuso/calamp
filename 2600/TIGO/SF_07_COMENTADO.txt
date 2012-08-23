@@ -1,0 +1,208 @@
+//0000 Nota: Tener cuidado con los espacios al final de linea en el script porque el equipo interpreta mal agregando ceros!!!!!
+
+AT$APP DEFAULT ALL								//Setea por defecto todos los parametros, S-Registers y PEG Events.
+
+AT$APP GPRS CONTEXT 0 "skycop.tigo.py"	//APN 0
+AT$APP GPRS CONTEXT 1 "skycop.tigo.py"	//APN 1
+AT$APP PPP USER "tigo"			//Usuario
+AT$APP PPP PASSWORD "tigo"		//Contraseña
+AT$APP MOBID USER			//Usar ID personalizado
+AT$APP MOBID USER 100101		//ID " "
+AT$APP INBOUND 172.17.9.230:5052	//IP y Puerto Servidor
+
+AT$APP PARAM 2319,0,""			//Configuracion URL
+AT$APP PARAM 1027,0,30			//Tiempo para declarar perdida de GPS
+AT$APP PARAM 1028,0,30			//Tiempo para declarar señal de GPS como última conocida
+AT$APP PARAM 2312,0,17			//Configuración mensaje de mantenimiento
+AT$APP PARAM 2322,0,28800		//Configura cada cuando se envía mensaje de mantenimiento (15180 s = 4 H)
+AT$APP PARAM 771,0,20			//Tiempo de 1º Reinstento mensajes con ACK
+AT$APP PARAM 771,1,20			//Tiempo de 2º Reinstento mensajes con ACK
+AT$APP PARAM 771,2,0			//Tiempo de 3º Reinstento mensajes con ACK (0 s solo 2 intentos)
+AT$APP PARAM 1032,0,2			//Numero de veces que el equipo intenta enviar el LOG cuando la ignición está encendida
+AT$APP PARAM 1034,0,2			//Numero de veces que el equipo intenta enviar el LOG cuando la ignición está apagada
+
+AT$APP PARAM 1024,36,1,1		//Habilita el Pinning
+
+AT$APP PARAM 1024,7,1,1			//Configura lo que se guarda en caso de reset (Acumuladores)
+AT$APP PARAM 1024,7,2,2			//Configura lo que se guarda en caso de reset (Banderas)
+AT$APP PARAM 1024,7,64,64		//Configura lo que se guarda en caso de reset (en cualquier reset)
+AT$APP PARAM 1024,7,128,128		//Configura lo que se guarda en caso de reset (cuando la Ignición OFF)
+
+AT$APP PARAM 772,0,1,1			//Formato Paquete a enviar
+AT$APP PARAM 772,0,8,8
+AT$APP PARAM 772,0,16,16
+AT$APP PARAM 772,0,32,32
+AT$APP PARAM 772,0,128,128
+AT$APP PARAM 772,0,512,512
+AT$APP PARAM 772,0,1024,1024
+AT$APP PARAM 772,0,2048,2048
+
+AT$APP PARAM 773,0,1,1			//Formato Paquete log
+AT$APP PARAM 773,0,8,8
+AT$APP PARAM 773,0,16,16
+AT$APP PARAM 773,0,32,32
+AT$APP PARAM 773,0,128,128
+AT$APP PARAM 773,0,512,512
+AT$APP PARAM 773,0,1024,1024
+AT$APP PARAM 773,0,2048,2048
+
+AT$APP PARAM 262,0,30			//Perfil de tiempo y Distancia 0 (Tiempo)
+AT$APP PARAM 263,0,1000			//Perfil de tiempo y Distancia 0 (Distancia)
+AT$APP PARAM 264,0,45			//Perfil de tiempo y Distancia 0 (Direccion)
+AT$APP PARAM 262,1,120			//Perfil de tiempo y Distancia 1 (Tiempo)
+AT$APP PARAM 263,1,4000			//Perfil de tiempo y Distancia 1 (Distancia)
+AT$APP PARAM 264,1,180			//Perfil de tiempo y Distancia 1 (Direccion)
+
+AT$APP PARAM 2560,0,0			//Cera Acumulador 0
+AT$APP PARAM 2560,1,0			//Cera Acumulador 1
+AT$APP PARAM 2560,2,0			//Cera Acumulador 2
+AT$APP PARAM 2560,3,0			//Cera Acumulador 3
+AT$APP PARAM 2560,4,0			//Cera Acumulador 4
+AT$APP PARAM 2560,5,0			//Cera Acumulador 5
+AT$APP PARAM 2560,6,0			//Cera Acumulador 6
+
+AT$APP PARAM 266,0,6000			//Limite Acumulador 0 = 6 V
+AT$APP PARAM 266,1,2000			//Limite Acumulador 1 = 2 V
+
+AT$APP PARAM 265,0,1800			//Timer 0 = 1800 s
+AT$APP PARAM 265,1,900			//Timer 1 = 900 s
+AT$APP PARAM 265,2,1860			//Timer 2 = 1860 s
+AT$APP PARAM 265,3,172800		//Timer 3 = 172800 s
+AT$APP PARAM 265,4,300			//Timer 4 = 300 s
+AT$APP PARAM 265,5,20			//Timer 5 = 20 s
+AT$APP PARAM 265,6,300			//Timer 6 = 300 s
+
+AT$APP PARAM 1030,0,1,0			//Hora local +0
+AT$APP PARAM 1030,0,2,0
+AT$APP PARAM 1030,0,4,0
+AT$APP PARAM 1030,0,8,0
+AT$APP PARAM 1030,0,16,0
+
+AT$APP PARAM 267,0,21600		//Hora del Healtcheck 3 AM
+AT$APP PARAM 268,0,0			//Healtcheck una vez al día
+AT$APP PARAM 267,1,10620		//Hora de Despertar al equipo
+AT$APP PARAM 268,1,0			//Se despieta una vez al día
+
+AT$APP PARAM 257,0,2000			//Exceso de velocidad
+AT$APP PARAM 259,0,10			//Antirrebote 10s
+AT$APP PARAM 260,0,180			//Teimpo mínimo para generar exceso
+
+AT$APP PARAM 277,0,222			//Aceleración 0 = 8 Km/H en 1 seg
+AT$APP PARAM 278,0,4
+AT$APP PARAM 277,1,4294967074		//Aceleración 1 = -8 Km/H en 1 seg
+AT$APP PARAM 278,1,4
+
+AT$APP PARAM 271,1,1			//Retardo de activacion In 1
+AT$APP PARAM 272,1,1			//Retarde de desactivacion In 1
+
+AT$APP GZ ERASE				//Borra datos de Zonas
+
+AT$APP PARAM 261,0,4269703264,4237245030,400,400,1,20	//Zona 0 (Falcon)
+AT$APP PARAM 261,1,4269457882,4240361105,400,400,1,20	//Zona 1 (CDE)
+AT$APP PARAM 261,2,4267603841,4239113558,400,400,1,20	//Zona 2 (Encarnacion)
+AT$APP PARAM 261,3,4269623739,4237323695,400,400,1,20	//Zona 3 (Ita Enramada 1)
+AT$APP PARAM 261,4,4292429964,4237316140,400,400,1,20	//Zona 4 (Ita Enramada 2)
+AT$APP PARAM 261,5,4272418925,4239262914,1500,1500,1,20	//Zona 5 (P.J.Caballero)
+AT$APP PARAM 261,6,4272961569,4288905311,400,400,1,20	//Zona 6 (Mcal. Estigarribia)
+AT$APP PARAM 261,7,4044396667,3719609444,400,400,1,20	//Zona 7 (Chaco)
+
+AT$APP PARAM 512,N,15,0,0,0,20,0,0,0	//Ignicion ON -> Reset GPS
+AT$APP PARAM 512,N,15,0,0,0,55,0,0,0	//Ignicion ON -> Reset Modem
+
+AT$APP PARAM 512,N,3,0,0,0,47,1,0,0	//Encendido o despierto -> Inicia muestreo A/D 0 en Acumulador 1
+AT$APP PARAM 512,N,3,0,0,0,47,16,0,0	//Encendido o despierto -> Inicia muestreo A/D 1 en Acumulador 0
+AT$APP PARAM 512,N,3,0,0,0,27,2,0,0	//Encendido o despierto -> Inicia Acumulador de Distancia (Acumulador 2)
+
+AT$APP PARAM 512,N,17,0,5,0,1,0,0,0	//Perfil Tiempo/Distancia y con coneccion GPRS -> Envía reporte al servidor con ACK (Ev 0)
+AT$APP PARAM 512,N,14,0,17,1,17,6,0,0	//Pierde señal GPRS y Bandera 1 = 0 -> Timer 6 cuenta una vez
+AT$APP PARAM 512,N,18,6,17,1,6,0,0,0	//Timer llegó a 0 (Timer 6) y Bandera 1 = 0 -> Detiene Perfil de Tiempo y Distancia
+AT$APP PARAM 512,N,18,6,17,1,7,1,0,0	//Timer llegó a 0 (Timer 6) y Bandera 1 = 0 -> Iniciar Perfil de Tiempo y Distancia 1
+AT$APP PARAM 512,N,17,0,6,0,2,30,0,0	//Perfil Tiempo/Distancia y sin coneccion GPRS -> Envía reporte al LOG (EV 30)
+AT$APP PARAM 512,N,13,0,0,0,3,0,0,0	//Toma señal GPRS -> Envia datos en el LOG al servidor
+AT$APP PARAM 512,N,13,0,17,1,6,0,0,0	//Toma señal GPRS y Bandera 1 = 0 -> Detiene Perfil de Tiempo y Distancia
+AT$APP PARAM 512,N,13,0,17,1,7,0,0,0	//Toma señal GPRS y Bandera 1 = 0 -> Iniciar Perfil de Tiempo y Distancia 0
+AT$APP PARAM 512,N,13,0,17,1,30,6,0,0	//Toma señal GPRS y Bandera 1 = 0 -> Para e inicializa Timer (Timer 6)
+AT$APP PARAM 512,N,43,0,0,0,13,0,0,0	//No se mueve -> Inicia conteo Timer 0
+AT$APP PARAM 512,N,18,0,17,0,6,0,0,0	//Timer llegó a 0 (Timer 0) y Bandera 0 = 0 -> Detiene Perfil de Tiempo y Distancia
+AT$APP PARAM 512,N,18,0,17,0,31,1,0,0	//Timer llegó a 0 (Timer 0) y Bandera 0 = 0 -> Bandera 1 = 1
+AT$APP PARAM 512,N,18,0,5,0,1,11,17,0	//Timer llegó a 0 (Timer 0) y Tiene señal GPRS y Bandera 0 = 0 -> Envía reporte al servidor con ACK (Ev 11)
+AT$APP PARAM 512,N,18,0,6,0,2,31,17,0	//Timer llegó a 0 (Timer 0) y Sin señal GPRS y Bandera 0 = 0 -> Envía reporte al LOG (Ev 31)
+AT$APP PARAM 512,N,18,0,17,0,31,0,0,0	//Timer llegó a 0 (Timer 0) y Bandera 0 = 0 -> Bandera 0 = 1
+AT$APP PARAM 512,N,18,0,5,0,1,0,16,0	//Timer llegó a 0 (Timer 0) y Tiene señal GPRS y Bandera 0 = 1 -> Envía reporte al servidor con ACK (Ev 0)
+AT$APP PARAM 512,N,42,0,0,0,30,0,0,0	//Se mueve -> Para e inicializa Timer (Timer 0)
+AT$APP PARAM 512,N,42,0,0,0,32,1,0,0	//Se mueve -> Bandera 1 = 0
+AT$APP PARAM 512,N,42,0,5,0,7,0,16,0	//Se mueve y Tiene señal GPRS y Bandera 0 = 1 -> Iniciar Perfil de Tiempo y Distancia 0
+AT$APP PARAM 512,N,42,0,6,0,7,1,16,0	//Se mueve y Sin señal GPRS y Bandera 0 = 1 -> Iniciar Perfil de Tiempo y Distancia 1
+AT$APP PARAM 512,N,42,0,0,0,32,0,0,0	//Se mueve -> Bandera 0 = 0
+
+AT$APP PARAM 512,N,47,0,0,0,17,5,0,0	//Acumulador 0 menor a limite -> Timer 5 cuenta una vez
+AT$APP PARAM 512,N,18,5,5,0,1,21,25,0	//Timer llegó a 0 (Timer 5) y Tiene señal GPRS y Acumulador 0 menor a limite -> Envía reporte al servidor con ACK (Ev 21)
+AT$APP PARAM 512,N,18,5,6,0,2,21,25,0	//Timer llegó a 0 (Timer 5) y Sin señal GPRS y Acumulador 0 menor a limite -> Envía reporte al LOG (EV 21)
+AT$APP PARAM 512,N,19,1,0,0,30,5,0,0	//Acumulador 1 mayor a limite -> Para e inicializa Timer (Timer 5)
+
+AT$APP PARAM 512,N,47,1,0,0,17,5,0,0	//Acumulador 1 menor a limite -> Timer 5 cuenta una vez
+AT$APP PARAM 512,N,18,5,5,0,1,22,25,1	//Timer llegó a 0 (Timer 5) y Tiene señal GPRS y Acumulador 1 menor a limite -> Envía reporte al servidor con ACK (Ev 22)
+AT$APP PARAM 512,N,18,5,6,0,2,22,25,1	//Timer llegó a 0 (Timer 5) y Sin señal GPRS y Acumulador 1 menor a limite -> Envía reporte al LOG (EV 22)
+AT$APP PARAM 512,N,19,1,0,0,30,5,0,0	//Acumulador 1 mayor a limite -> Para e inicializa Timer (Timer 5)
+
+AT$APP PARAM 512,N,5,1,5,0,1,23,0,0		//Inp1=0 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 23)
+AT$APP PARAM 512,N,5,1,6,0,2,23,0,0		//Inp1=0 y Sin señal GPRS -> Envía reporte al LOG (Ev 23)
+
+AT$APP PARAM 512,N,9,0,5,0,1,50,0,0		//Entra Zona 0 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 50)
+AT$APP PARAM 512,N,9,1,5,0,1,51,0,0		//Entra Zona 1 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 51)
+AT$APP PARAM 512,N,9,2,5,0,1,52,0,0		//Entra Zona 2 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 52)
+AT$APP PARAM 512,N,9,3,5,0,1,53,0,0		//Entra Zona 3 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 53)
+AT$APP PARAM 512,N,9,4,5,0,1,55,0,0		//Entra Zona 4 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 55)
+AT$APP PARAM 512,N,9,5,5,0,1,56,0,0		//Entra Zona 5 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 56)
+AT$APP PARAM 512,N,9,6,5,0,1,57,0,0		//Entra Zona 6 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 57)
+AT$APP PARAM 512,N,9,7,5,0,1,58,0,0		//Entra Zona 7 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 58)
+AT$APP PARAM 512,N,9,0,6,0,2,50,0,0		//Entra Zona 0 y Sin señal GPRS -> Envía reporte al LOG (Ev 50)
+AT$APP PARAM 512,N,9,1,6,0,2,51,0,0		//Entra Zona 1 y Sin señal GPRS -> Envía reporte al LOG (Ev 51)
+AT$APP PARAM 512,N,9,2,6,0,2,52,0,0		//Entra Zona 2 y Sin señal GPRS -> Envía reporte al LOG (Ev 52)
+AT$APP PARAM 512,N,9,3,6,0,2,53,0,0		//Entra Zona 3 y Sin señal GPRS -> Envía reporte al LOG (Ev 53)
+AT$APP PARAM 512,N,9,4,6,0,2,55,0,0		//Entra Zona 4 y Sin señal GPRS -> Envía reporte al LOG (Ev 55)
+AT$APP PARAM 512,N,9,5,6,0,2,56,0,0		//Entra Zona 5 y Sin señal GPRS -> Envía reporte al LOG (Ev 56)
+AT$APP PARAM 512,N,9,6,6,0,2,57,0,0		//Entra Zona 6 y Sin señal GPRS -> Envía reporte al LOG (Ev 57)
+AT$APP PARAM 512,N,9,7,6,0,2,58,0,0		//Entra Zona 7 y Sin señal GPRS -> Envía reporte al LOG (Ev 58)
+
+AT$APP PARAM 512,N,20,0,0,0,1,1,0,0		//Hora del día (Hora 0) -> Envía reprote al servidor son ACK (Ev 1) (Healtcheck)
+
+AT$APP PARAM 512,N,7,0,5,0,1,72,0,0		//Exceso de velocidad (Limite 0) y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 72)
+AT$APP PARAM 512,N,7,0,6,0,2,72,0,0		//Exceso de velocidad (Limite 0) y Sin señal GPRS -> Envía reporte al LOG (Ev 72)
+
+AT$APP PARAM 512,N,12,0,1,0,13,1,0,0	//Pierde señal de GPS e Ignición ON -> Inicia conteo Timer 1
+AT$APP PARAM 512,N,18,1,1,0,20,0,8,0	//Timer llegó a 0 (Timer 1) e Ignición ON y Sin señal de GPS -> Reset GPS
+AT$APP PARAM 512,N,11,0,0,0,30,1,0,0	//Tomó señal de GPS -> Para e inicializa Timer (Timer 1)
+
+AT$APP PARAM 512,N,14,0,1,0,13,2,0,0	//Pierde señal de GPRS e Ignición ON -> Inicia conteo Timer 2
+AT$APP PARAM 512,N,18,2,1,0,55,0,6,0	//Timer llegó a 0 (Timer 2) e Ignición ON y Sin señal GPRS -> Reset Modem
+AT$APP PARAM 512,N,13,0,0,0,30,2,0,0	//Tomó señal de GPRS -> Para e inicializa Timer (Timer 2)
+
+AT$APP PARAM 512,N,62,0,5,0,1,79,0,0	//Aceleración sobre el límite (Limite 0) y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 79)
+AT$APP PARAM 512,N,62,0,6,0,2,79,0,0	//Aceleración sobre el límite (Limite 0) y Sin señal GPRS -> Envía reporte al LOG (Ev 79)
+AT$APP PARAM 512,N,62,1,5,0,1,80,0,0	//Aceleración sobre el límite (Limite 1) y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 80)
+AT$APP PARAM 512,N,62,1,6,0,2,80,0,0	//Aceleración sobre el límite (Limite 1) y Sin señal GPRS -> Envía reporte al LOG (Ev 80)
+
+AT$APP PARAM 512,N,16,0,0,0,23,1,0,0	//Ignición OFF -> Habilita el power manager
+AT$APP PARAM 512,N,16,0,0,0,17,3,0,0	//Ignición OFF -> Empieza conteo una vez de Timer (Timer 3)
+AT$APP PARAM 512,N,18,3,0,0,24,1,0,0	//Timer llegó a 0 (Timer 3) -> Equipo duerme hasta hora del día (Hora 1)
+AT$APP PARAM 512,N,18,3,0,0,31,4,0,0	//Timer llegó a 0 (Timer 3) -> Bandera 4 = 1
+AT$APP PARAM 512,N,2,0,2,0,17,4,16,4	//Despierta e Ignición OFF y Bandera 4 = 1 -> Empieza conteo una vez de Timer (Timer 4)
+AT$APP PARAM 512,N,18,4,16,4,24,1,0,0	//Timer llegó a 0 (Timer 4) y Bandera 4 = 1 -> Equipo duerme hasta hora del día (Hora 1)
+AT$APP PARAM 512,N,15,0,0,0,23,0,0,0	//Ignición ON -> Deshabilita el power manager
+AT$APP PARAM 512,N,15,0,0,0,30,3,0,0	//Ignición ON -> Para e inicializa Timer (Timer 3)
+AT$APP PARAM 512,N,15,0,0,0,30,4,0,0	//Ignición ON -> Para e inicializa Timer (Timer 4)
+AT$APP PARAM 512,N,15,0,16,4,32,4,0,0	//Ignición ON y Bandera 4 = 1 -> Bandera 4 = 0
+AT$APP PARAM 512,N,42,0,0,0,23,0,0,0	//Se mueve -> Deshabilita el power manager
+AT$APP PARAM 512,N,42,0,0,0,30,3,0,0	//Se mueve -> Para e inicializa Timer (Timer 3)
+AT$APP PARAM 512,N,42,0,0,0,30,4,0,0	//Se mueve -> Para e inicializa Timer (Timer 4)
+AT$APP PARAM 512,N,42,0,16,4,32,4,0,0	//Se mueve y Bandera 4 = 1 -> Bandera 4 = 0
+
+AT$APP PARAM 512,N,3,0,16,15,8,0,0,0	//Encendido o despierto y Bandera 15 = 1 -> Salida 0 = 1
+AT$APP PARAM 512,N,3,0,17,15,9,0,0,0	//Encendido o despierto y Bandera 15 = 0 -> Salida 0 = 0
+
+at$app PEG ACTION 32 0					//Clear Flag 0, no son borradas por "DEFAULT ALL" e indican el estado de la aplicacion..
+at$app PEG ACTION 32 1					//Clear Flag 1
+
+at$app LOG CLEAR						//Borra el LOG (por si es un equipo reciclado!)
+AT$APP REBOOT							//resetea el equipo

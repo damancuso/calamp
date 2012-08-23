@@ -1,0 +1,39 @@
+***************************************************************************************************************************
+******* SF_07 (TIGO): *****************************************************************************************************
+***************************************************************************************************************************
+---- 23/05/12 -----
+* Se ignora la senal de ignicion para parar/arrancar el pinning para evitar que el equipo reporte parado cuando en realidad 
+se mueve y tiene problemas en la ignicion.
+* Se agrega el Horizontal Position Acuracy Threshold con un valor de 7m. Esta actualizacion se realiza para que en las
+ instalaciones se pueda verificar el GPS ya que en algunos casos se pinea con status 02 y no se puede verificar
+ fehacientemente si la antena quedo bien colocada.
+
+AT$APP PARAM 1024,36,2,2		//Ignora la ignicion para el control del pinning
+AT$APP PARAM 1024,22,255,7		//Horizontal position accuracy trheshold (si es mejor a 7m actualiza la posicion)
+
+----- 25/05/12 -----
+* Se elimina la actualizacion de la posicion Horizontal Accuracy Threshold, ya que esto por mas que se ponga un valor bajo
+  genera dispersion, detectando una posicion mejor estanto en pinning la actualiza por lo que la deriva, aunque es mucho 
+  menor, sigue existiendo.....
+
+AT$APP PARAM 1024,22,255,0		//Horizontal accuracy thershold = 0 (S-142)
+
+****************************************************************************************************************************
+****** SFR_05 (CLARO): *****************************************************************************************************
+****************************************************************************************************************************
+---- 23/05/12 -----
+* Se ignora la senal de ignicion para parar/arrancar el pinning para evitar que el equipo reporte parado cuando en realidad 
+se mueve y tiene problemas en la ignicion.
+* Se agrega el Horizontal Position Acuracy Threshold con un valor de 7m. Esta actualizacion se realiza para que en las
+ instalaciones se pueda verificar el GPS ya que en algunos casos se pinea con status 02 y no se puede verificar
+ fehacientemente si la antena quedo bien colocada.
+
+AT$APP PARAM 1024,36,2,2		//Ignora la ignicion para el control del pinning
+AT$APP PARAM 1024,22,255,7		//Horizontal position accuracy trheshold (si es mejor a 7m actualiza la posicion)
+
+----- 25/05/12 -----
+* Se elimina la actualizacion de la posicion Horizontal Accuracy Threshold, ya que esto por mas que se ponga un valor bajo
+  genera dispersion, detectando una posicion mejor estanto en pinning la actualiza por lo que la deriva, aunque es mucho 
+  menor, sigue existiendo.....
+
+AT$APP PARAM 1024,22,255,0		//Horizontal accuracy thershold = 0 (S-142)

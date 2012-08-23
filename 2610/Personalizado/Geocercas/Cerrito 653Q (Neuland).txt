@@ -1,0 +1,45 @@
+Estas son las coordenadas para la geocerca de la ciudad de CERRITO:
+
+Latitud: -24.957036
+Longitud: -57.547331
+Radio: 1.48 Kms
+
+Latitud:
+Dec: 249570360
+Binario: 1110111000000010010000111000
+Complemento a 2: 1111 0001 0001 1111 1101 1011 1100 1000
+Decimal transformado: 4045396936
+
+Longitud: 575473310
+binario: 100010010011010000011010011110
+Complemento a 2: 11011101101100101111100101100010
+Decimal transformado: 3719493986
+
+
+Comandos:
+
+AT$APP PARAM 261,x,Latidud,longitud,radio,radio,1,histeresis
+AT$APP PARAM 512,N,9,7,5,0,1,58,0,0	//Entra Zona 7 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 58)
+AT$APP PARAM 512,N,9,7,6,0,2,58,0,0	//Entra Zona 7 y Sin señal GPRS -> Envía reporte al LOG (Ev 58)
+
+AT$APP PARAM 512,86,9,8,5,0,1,70,0,0	//Entra Zona 8 y Tiene señal GPRS -> Envía reporte al servidor con ACK (Ev 70)
+AT$APP PARAM 512,87,9,8,6,0,2,70,0,0	//Entra Zona 8 y Sin señal GPRS -> Envía reporte al LOG (Ev 70)
+
+
+AT$APP PARAM 261,8,4045396936,3719493986,1500,1500,1,20
+AT$APP PARAM 512,86,9,8,5,0,1,70,0,0
+AT$APP PARAM 512,87,9,8,6,0,2,70,0,0
+
+Cargado en un equipo de pruebas y extraido el CSV con LMU Manager:
+261,8,00000000DDB2F962000005DC000005DC0014
+512,86,0908050001460000
+512,87,0908060002460000
+
+archivo CSV a generar:
+
+parameter_id,parameter_index,paramater_value
+261,8,00000000DDB2F962000005DC000005DC0014
+512,86,0908050001460000
+512,87,0908060002460000
+1024,1,01
+1024,23,01

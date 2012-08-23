@@ -1,0 +1,22 @@
+Fecha: 20/07/2012
+Descripcion: Primer actualizacion a LMUs con SIM Claro desde PULS
+	* EV21: Vthreshold bateria principal = 2.0V para evitar falsos disparos de EV21 al dar arranque con la bateria baja
+	* Geocercas corregidas: El SCRIPT para el LMU2600 (SFR_05) tenia un error en la Geocerca Encarnacion (10 Km corrida al Norte)
+	Correcta:
+		-27.3634550 -> 4021332746 decimal -> 0xEFB0AB0A
+		-55.8537380 -> 3736429916 decimal -> 0xDEB5655C
+	* PING: Se habilita la respuesta al PING en los equipos (OFF by default)
+
+Equipo/s destino:
+	* LMU2600
+	* LMU2610
+	* LMU2720
+
+-------------------------------------------------------------------
+parameter_id,parameter_index,paramater_value
+266,0,000007D0								//Accummulator 0 Thershold (2000 decimal) (corrige falsos disparos EV21)
+261,2,EFB0AB0ADEB5655C00000190000001900014	//Zona 2 (Encarnacion)
+1280,0,05									//Bit 0: Enable Ping response, bit 2: Static Inbound server
+1024,1,8									//Script 8
+1024,23,0									//Config 0
+------------------------------------------------------------------

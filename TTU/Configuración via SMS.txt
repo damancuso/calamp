@@ -1,0 +1,18 @@
+Programación
+
+!RP,1024,35,1,1			//Elimina la auto configuración de la red GSM
+!RP,2306,0,skycop.tigo.py	//Configura el APN
+!RP,2314,0,tigo			//Configura el usuraio para el APN
+!RP,2315,0,tigo			//Configura la contraseña para el APN
+!RP,2319,0,172.17.9.230		//Configura la dirección del servidor local
+!RP,769,0,5052			//Configura el puerto
+!RP,2304,0,300100		//MOBID
+
+Para la verificación
+!R3,70,0	//Reset
+!RC		//Celular
+!RG		//GPS
+
+
+Para la verificación serial
+ATI5		//IP

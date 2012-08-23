@@ -1,0 +1,1 @@
+AT$APP PARAM 1024,10,64 //bit6: luego de un power-up, si no se detecta actividad In2 y Out2 se configuran como GPIO (por default son serial port).

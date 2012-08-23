@@ -1,0 +1,25 @@
+Fecha: 23/07/2012
+Descripcion:	"Eliminacion de falsos disparos de pulsador de panico (EV23)"
+	*Trigger del Inp1 en flanco de bajada (el pulsador esta puesto contra GND y la linea posee Rpull-up)
+	* Se utiliza el Acumulador15 para que almacene Vbat.ppal. (idem Acum0) pero se le coloca un Vthreshold de 11V para
+		utilizarlo como condicion extra para el disparo de EV23, evitando falsos disparos por bateria baja.
+
+Equipo/s destino: * LMU2600 y LMU2610
+Operador destino: * TIGO
+
+-------------Script CSV para PULS--------------------------------------------------------------------
+parameter_id,parameter_index,paramater_value
+266,15,00002AF8				//Acum15 Threshold = 11000 (11.0V)
+512,34,050105000117180F		//PEG Event 34: Inp1 High & Comm_Available & Acum15 > threshold  -> Send Report(EV23)
+512,35,050106000217180F		//PEG Event 35: Inp1 High & Comm_not_Available & Acum15 > threshold  -> Log Report(EV23)
+512,130,030000002F0F0000 	//Encendido o despierto -> Inicia muestreo A/D 0 en Acumulador 15
+1024,1,09					//Script 9
+1024,23,04					//Config 4 (LMU26X0 - TIGO)
+----------------------------------------------------------------------------------------------------
+
+
+----------- Script AT para programacion serie -----------------------------------------------------------
+AT$APP PARAM 512,34,5,1,5,0,1,23,24,15	//Event 34 en forma de parametro para script SF_08
+AT$APP PARAM 512,35,5,1,6,0,2,23,24,15	//Event 35 en forma de parametro para script SF_08
+AT$APP PARAM 512,130,3,0,0,0,47,15,0,0	//Encendido o despierto -> Inicia muestreo A/D 0 en Acumulador 15
+---------------------------------------------------------------------------------------------------------

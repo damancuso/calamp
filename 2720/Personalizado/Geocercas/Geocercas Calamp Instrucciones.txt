@@ -1,0 +1,28 @@
+2) Tanto la latitud y la longitud deben ser convertidas de la siguiente manera:
+   2.a) La latitud y la longitud deben tener 9 dígitos sin coma, si las coordenas tienen menos de 9 dígitos se debe agregar 0 hasta completar los 9 dígitos.
+   2.b) Se transforma el número a binario (32 bits). Como el número en nuestro caso es negativo se debe realizar el complemento a 2 del mismo.
+   2.c) Se transforma el número binario a decimal (UNSIGNED INT32), EL LA calculadora de win7 se puede hacer pasando el numero a QWord y poner en 0 los bits 32-63.
+
+
+
+Ejemplo:
+
+
+
+Latitud: -24.957036
+Longitud: -57.547331
+Radio: 1.48 Kms
+
+Latitud:
+
+Dec: 249570360 (se toman 6 decimales + los grados sin el signo)
+
+Binario: 1110111000000010010000111000
+Complemento a 2: 1111 0001 0001 1111 1101 1011 1100 1000
+Decimal transformado: 4045396936
+
+Longitud: 575473310
+binario: 100010010011010000011010011110
+Complemento a 2: 11011101101100101111100101100010
+Decimal transformado: 3719493986
+

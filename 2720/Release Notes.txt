@@ -1,0 +1,98 @@
+-----------------------------------------------------------------------------------------
+******************* Fecha: 22/08/12: ******************************************
+Descripcion:
+* Se crea una nueva version del script para los LM2720:
+Version para TIGO:  ..\2720\TIGO\SF_09_T_2720.txt
+Version para CLARO: ..\2720\CLARO\SFR_07_C_2720.txt
+
+* Modificaciones:
+1) Se cambian los parametros que configuran el acelerometro por GPS por los que configuran el acelerometro 3D MEMS:
+	AT$APP PARAM 281,0,1			//Fast acceleration (profile 0)
+	AT$APP PARAM 281,1,2			//Braking (profile 1)
+	AT$APP PARAM 281,2,3			//Left turn (profile 2)
+	AT$APP PARAM 281,3,4			//Right turn (profile 3)
+	AT$APP PARAM 281,4,133			//Profile 4 -> Vertical UP, fast, filtered 8 samples not 16 (5 + Bit7) 1000 0101 = 133d
+	AT$APP PARAM 283,0,180			//Acceleration threshold (profile 0, accel) = 180 cm/s/s (Calamp recomienda 250 en su ej.)
+	AT$APP PARAM 283,1,210			//Acceleration threshold (profile 1, braking) = 210 cm/s/s (recom: 330)
+	AT$APP PARAM 283,2,350			//Acceleration threshold (profile 2, left) = 350 cm/s/s	(recom: 350)
+	AT$APP PARAM 283,3,350			//Acceleration threshold (profile 2, right) = 350 cm/s/s (recom:350)
+	AT$APP PARAM 283,4,55			//Vertical UP threshold(empedrado o bumps)  = 55 cm/s/s
+	AT$APP PARAM 284,0,1500			//1500 mseg minimum (profile 0, accel)
+	AT$APP PARAM 284,1,1500			//1500 mseg minimum (profile 1, braking)
+	AT$APP PARAM 284,2,2000			//2000 mseg minimum (profile 2, left)
+	AT$APP PARAM 284,3,2000			//2000 mseg minimum (profile 2, right)
+	AT$APP PARAM 284,4,200			//Profile 4 Minimun duration (200ms)
+	AT$APP PARAM 285,0,30000		//30 seg (max.)
+	AT$APP PARAM 285,1,30000		//   "     "
+	AT$APP PARAM 285,2,30000		//   "     "
+	AT$APP PARAM 285,3,30000		//   "     "
+	AT$APP PARAM 285,4,30000		//   "     "
+	AT$APP PARAM 1024,54,2,2		//S-Reg 174 = 2  (Required for accurate calibration)
+	AT$APP PARAM 1024,55,67,67		//S-Reg 175 = 67 (Required for accurate calibration)
+	
+2) Se agregan los parametros para configurar la deteccion de impacto:	
+	AT$APP PARAM 896,0,3			//Mode (0=Sensor, 1=Impact Only, 2=Motion Only, 3=Impact & Motion) 	
+	AT$APP PARAM 897,0,0,207		//Impact force 0xCF=207 = 8.640 G's (default)
+	AT$APP PARAM 898,0,0			//Impact filter duration x10ms (10 ms, recomendado)
+
+3) Se modifican los parametros 512 (numero 65 a 68 en SF_08 y 69 a 72 en SFR_06) para que los disparos de Eventos de aceleracion y frenada
+     bruscas sean generados por el trigger 71 (acceleration event detected, 3D) en lugar del 67 (accel. por GPS):
+	AT$APP PARAM 512,65,71,0,5,0,1,79,0,0		//aceleration event detected (0,accel) & COMM -> Send report (Ev 79)
+	AT$APP PARAM 512,66,71,0,6,0,2,79,0,0		//aceleration event detected (0,accel) & !COMM -> LOG Report (Ev 79)
+	AT$APP PARAM 512,67,71,1,5,0,1,80,0,0		//aceleration event detected (1,break) & COMM -> Send report (Ev 80)
+	AT$APP PARAM 512,68,71,1,6,0,2,80,0,0		//aceleration event detected (1,break) & !COMM -> LOG Report (Ev 80)
+
+4) Se agregan los eventos para giros bruscos y deteccion de excesos en caminos empedrados o bumps:
+	//Giros bruscos (EV 81)
+	at$app param 512,69,71,2,5,0,1,81,0,0		//aceleration event detected (2,left) -> Send report (81, giro, es indistinto si es izquierda o derecha)
+	at$app param 512,70,71,2,6,0,2,81,0,0		// ''        & no_comm                -> LOG report (81, giro) por lo que ambos envian el EV81
+	at$app param 512,71,71,3,5,0,1,81,0,0		//aceleration event detected (3,right)-> Send report (81, giro)
+	at$app param 512,72,71,3,6,0,2,81,0,0		// ''        & no_comm                -> LOG report (81. giro)
+	//Deteccion de empedrado o bumps (EV 82):
+	at$app param 512,73,71,4,5,0,1,82,0,0		//aceleration event detected (4,up)   -> Send report (82, baden)
+	at$app param 512,74,71,4,6,0,2,82,0,0		// ''        & no_comm                -> LOG report (82, baden)
+	
+5) Se agregan los eventos para deteccion de impacto (trigger 66 modif. 1):
+	//Deteccion de Impacto (EV 83):
+	at$app param 512,75,66,1,5,0,1,83,0,0		//66 Accelerometer Event(1=Impact; 0,2-255 reserved) -> Send report (83, Impacto)
+	at$app param 512,76,66,1,6,0,2,83,0,0		// ''        & no_comm                -> LOG report (83, Impacto)
+	
+6) Se cambiaron los triggers de los parametros 512 (lineas 2 y 3 en SF_08 y SFR_06). Los mismos usaban el trigger de Power_external (Trigger 5, Inp6 = 0)
+    para iniciar la acumulacion	de los A/D 0 y A/D 5 en los acumuladores 0 y 1 por el trigger disparado por la ignicion en ON (trigger 15). 
+	AT$APP PARAM 512,2,15,0,0,0,47,1,0,0	   	//Ignition ON -> Inicia muestreo A/D 0 en Acumulador 1 (Bat. Principal)
+	AT$APP PARAM 512,3,15,0,0,0,47,80,0,0		//Ignition ON -> Inicia muestreo A/D 5 en Acumulador 0 (0x50=80d, AD_5 in Accum0, Bat. Interna)
+	
+7) Se invirtio el numero de los acumuladores donde se envia tensión de Vcc y Bateria de respaldo ya que en el SKYWEB se visualizan cambiados
+	(Obs.: al crear el primer script se definio de esa manera para mantener la tension que se trae al campo  "Alimentacion de equipo")
+	AT$APP PARAM 512,2,15,0,0,0,47,0,0,0	   	//Ignition ON -> Inicia muestreo A/D 0 en Acumulador 0 (Bat. Principal) 0x00
+	AT$APP PARAM 512,3,15,0,0,0,47,81,0,0		//Ignition ON -> Inicia muestreo A/D 5 en Acumulador 1 (0x51=81d, AD_5 in Accum0, Bat. Interna)
+	 
+	 
+	 
+	 
+	
+
+
+
+***************************************************************
+
+-----------------------------------------------------------------------------------------
+
+
+
+
+TODO:
+
+** ANALIZAR SI ES NECESARIO TENER TANTO EV 20 COMO 22 EN ESTOS EQUIPOS!!!!
+
+** Implementar la funcion "Real Time Report" / "Regular Report"
+
+** Intercambiar los numeros de acumulador de Vcc y bat.respaldo para que sean visualizados correctamente en SKYWEB
+
+** Realizar pruebas con la deteccion de moving por GPS + Acelerometro (con el fin de prescindir de IGNICION para pinning):
+	AT$APP PARAM 899,0,50			//Motion period - Frecuencia de consulta del sensor (0x32 = 50ms)
+	AT$APP PARAM 900,0,10			//Motion interval, defines the number of consecutive sensor readings above or below the acceleration threshold value needed to change motion status 
+	AT$APP PARAM 901,0,1000			//Motion threshold (0x3E8 = 1000, recomendado)
+	Hay que configurar un bit mas para esta deteccion (bit 5 del parametro S-??)
+
+

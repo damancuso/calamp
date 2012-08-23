@@ -1,0 +1,3 @@
+
+
+*Agregar un delay a las entrada de PWR_External (5 seg) y Vbatt_Low (algunos minutos para que solo dispare el trigger una vez y no tire reiterados EV 20!)

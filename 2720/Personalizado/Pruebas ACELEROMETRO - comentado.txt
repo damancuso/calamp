@@ -1,0 +1,92 @@
+
+******** Parametros en hexadecimal para CSV (PULS):******************
+---------------------------------------------------------------------
+281,0,01	//Fast acceleration (profile 0)
+281,1,02	//Braking (profile 1)
+281,2,03	//Left turn (profile 2)
+281,3,04	//Right turn (profile 3)
+281,4,05	//Profile 4 -> Vertical UP (5)
+283,0,00FA	//Acceleration threshold (profile 0, accel) = 250 cm/s/s
+283,1,014A 	//Acceleration threshold (profile 1, braking) = 330 cm/s/s
+283,2,015E	//Acceleration threshold (profile 2, left) = 350 cm/s/s
+283,3,015E 	//Acceleration threshold (profile 2, right) = 350 cm/s/s
+284,0,05DC	//1500 mseg minimum (profile 0, accel)
+284,1,05DC	//1500 mseg minimum (profile 1, braking)
+284,2,07D0	//2000 mseg minimum (profile 2, left)
+284,3,07D0	//2000 mseg minimum (profile 2, right)
+285,0,7530	//30 seg (maximum)
+285,1,7530	//30 seg (maximum)
+285,2,7530	//30 seg (maximum)
+285,3,7530	//30 seg (maximum)
+1024,54,02	//S-Reg 174 = 2  (Required for accurate calibration)
+1024,55,43	//S-Reg 175 = 67 (Required for accurate calibration)
+
+//1024,36,03	//Position control (bit0:
+//1024,06,20 	//habilita debug accel.(0x20 = 32d)
+
+896,0,03	//Mode (0=Sensor, 1=Impact Only, 2=Motion Only, 3=Impact & Motion) 	
+897,0,CF	//Impact force 0xCF=207 = 8.640 G's (default)
+898,0,01	//Impact filter duration x10ms (10 ms, recomendado)
+899,0,32	//Motion period - Frecuencia de consulta del sensor (0x32 = 50ms)
+900,0,0A	//Motion interval, defines the number of consecutive sensor readings above or below
+		// the acceleration threshold value needed to change motion status 
+901,0,03E8	//Motion threshold (0x3E8 = 1000, recomendado)
+----------------------------------------------------------------------
+
+************ Parametros en forma de comando AT: ********************************************
+------------------------------------------------------------------------------------------
+AT$APP PARAM 1024,06,32,32	//Esto es para habilitar el debug de eventos de aceleracion
+
+AT$APP PARAM 281,0,1			//Fast acceleration (profile 0)
+AT$APP PARAM 281,1,2			//Braking (profile 1)
+AT$APP PARAM 281,2,3			//Left turn (profile 2)
+AT$APP PARAM 281,3,4			//Right turn (profile 3)
+AT$APP PARAM 281,4,133			//Profile 4 -> Vertical UP, fast, filtered 8 samples not 16 (5 + Bit7) 1000 0101 = 133d
+AT$APP PARAM 283,0,180			//Acceleration threshold (profile 0, accel) = 180 cm/s/s (Calamp recomienda 250 en su ej.)
+AT$APP PARAM 283,1,210			//Acceleration threshold (profile 1, braking) = 210 cm/s/s (recom: 330)
+AT$APP PARAM 283,2,350			//Acceleration threshold (profile 2, left) = 350 cm/s/s	(recom: 350)
+AT$APP PARAM 283,3,350			//Acceleration threshold (profile 2, right) = 350 cm/s/s (recom:350)
+AT$APP PARAM 283,4,55			//Vertical UP threshold(empedrado o bumps)  = 55 cm/s/s
+AT$APP PARAM 284,0,1500			//1500 mseg minimum (profile 0, accel)
+AT$APP PARAM 284,1,1500			//1500 mseg minimum (profile 1, braking)
+AT$APP PARAM 284,2,2000			//2000 mseg minimum (profile 2, left)
+AT$APP PARAM 284,3,2000			//2000 mseg minimum (profile 2, right)
+AT$APP PARAM 284,4,200			//Profile 4 Minimun duration (200ms)
+AT$APP PARAM 285,0,30000		//30 seg (max.)
+AT$APP PARAM 285,1,30000		//   "     "
+AT$APP PARAM 285,2,30000		//   "     "
+AT$APP PARAM 285,3,30000		//   "     "
+AT$APP PARAM 285,4,30000		//   "     "
+
+AT$APP PARAM 1024,54,2,2		//S-Reg 174 = 2  (Required for accurate calibration)
+AT$APP PARAM 1024,55,67,67		//S-Reg 175 = 67 (Required for accurate calibration)
+AT$APP PARAM 896,0,3			//Mode (0=Sensor, 1=Impact Only, 2=Motion Only, 3=Impact & Motion) 	
+AT$APP PARAM 897,0,0,207		//Impact force 0xCF=207 = 8.640 G's (default)
+AT$APP PARAM 898,0,0			//Impact filter duration x10ms (10 ms, recomendado)
+AT$APP PARAM 899,0,50			//Motion period - Frecuencia de consulta del sensor (0x32 = 50ms)
+AT$APP PARAM 900,0,10			//Motion interval, defines the number of consecutive sensor readings above or below the acceleration threshold value needed to change motion status 
+AT$APP PARAM 901,0,1000			//Motion threshold (0x3E8 = 1000, recomendado)
+
+//----- Trigger events: ---
+at$app param 512,150,71,0,5,0,1,80,0,0	//aceleration event detected (0,accel)-> Send report (80)
+at$app param 512,151,71,0,6,0,2,80,0,0	// ''        & no_comm                -> LOG report (80)
+at$app param 512,152,71,1,5,0,1,81,0,0	//aceleration event detected (1,break)-> Send report (81)
+at$app param 512,153,71,1,6,0,2,81,0,0	// ''        & no_comm                -> LOG report (81)
+at$app param 512,154,71,2,5,0,1,82,0,0	//aceleration event detected (2,left) -> Send report (82, giro)
+at$app param 512,155,71,2,6,0,2,82,0,0	// ''        & no_comm                -> LOG report (82, giro)
+at$app param 512,156,71,3,5,0,1,82,0,0	//aceleration event detected (3,right)-> Send report (82, giro)
+at$app param 512,157,71,3,6,0,2,82,0,0	// ''        & no_comm                -> LOG report (82. giro)
+at$app param 512,158,71,4,5,0,1,83,0,0	//aceleration event detected (4,up)   -> Send report (83, baden)
+at$app param 512,159,71,4,6,0,2,83,0,0	// ''        & no_comm                -> LOG report (83, baden)
+
+at$app param 512,160,66,1,5,0,1,84,0,0	//66 Accelerometer Event(1=Impact; 0,2-255 reserved) -> Send report (84, Impacto)
+at$app param 512,161,66,1,6,0,2,84,0,0	// ''        & no_comm                -> LOG report (84, Impacto)
+
+
+at$app param 512,160,71,0,0,0,10,0,0,0  //aceleration event detected (0,accel)-> One-shot output 0 (beep)
+at$app param 512,161,71,1,0,0,10,0,0,0	//break -> beep
+at$app param 512,162,71,2,0,0,10,0,0,0	//left -> beep
+at$app param 512,163,71,3,0,0,10,0,0,0	//right -> beep
+at$app param 512,164,71,4,0,0,10,0,0,0	//bump -> beep
+//-------------------------------------------------------------------------
+

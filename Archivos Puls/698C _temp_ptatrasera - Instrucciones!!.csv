@@ -1,0 +1,10 @@
+parameter_id,parameter_index,paramater_value;;;;encabezado;;
+512,94,04020500014D0000;;;;apertura de pta trasera;;
+512,95,04020600024D0000;;;;;;El procedimiento para generar las lineas de programacion es el siguiente:
+512,96,05020500014E0000;;;;cierre de puerta;;
+512,97,05020600024E0000;;;;;;1) Se programa otro equipo Calamp con la programacion especifica necesaria
+1024,51,41;;;;sensor de temp 1-Wire;;2) Se usa el LMU Manager para leer toda la configuracion del equipo (se usa la IP y el Idcalamp)
+2560,5,00000000;;;;;;3) Se exporta a un archivo CSV
+512,109,030000005B050000;;;;;;4) Busco cuales son los numeros de linea que me interesan de la programacion especifica
+1024,1,07;;;;version del script;;5) genero otro CSV como este, copiando los numeros de linea de interes y manteniendo el encabezado (parameter_id, etc.) y
+1024,23,00;;;;version del script;; las 2 ultimas lineas que indican la version del script, hay que utilizar una version que no este usada el el puls para no pisarla)

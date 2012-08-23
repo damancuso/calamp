@@ -1,0 +1,38 @@
+281,0,01	//Fast acceleration (profile 0)
+281,1,02	//Braking (profile 1)
+281,2,03	//Left turn (profile 2)
+281,3,04	//Right turn (profile 3)
+283,0,00FA	//Acceleration threshold (profile 0, accel) = 250 cm/s/s
+283,1,014A //Acceleration threshold (profile 1, braking) = 330 cm/s/s
+283,2,015E	//Acceleration threshold (profile 2, left) = 350 cm/s/s
+283,3,015E //Acceleration threshold (profile 2, right) = 350 cm/s/s
+284,0,05DC	//1500 mseg minimum (profile 0, accel)
+284,1,05DC	//1500 mseg minimum (profile 1, braking)
+284,2,07D0	//2000 mseg minimum (profile 2, left)
+284,3,07D0	//2000 mseg minimum (profile 2, right)
+285,0,7530	//30 seg (máximum)
+285,1,7530	//30 seg (máximum)
+285,2,7530	//30 seg (máximum)
+285,3,7530	//30 seg (máximum)
+1024,54,02	//S-Reg 174 = 2  (Required for accurate calibration)
+1024,55,43	//S-Reg 175 = 67 (Required for accurate calibration)
+
+
+AT$APP PARAM 281,0,1
+AT$APP PARAM 281,1,2
+AT$APP PARAM 281,2,3
+AT$APP PARAM 281,3,4
+AT$APP PARAM 283,0,250
+AT$APP PARAM 283,1,330
+AT$APP PARAM 283,2,350
+AT$APP PARAM 283,3,350
+AT$APP PARAM 284,0,1500
+AT$APP PARAM 284,1,1500
+AT$APP PARAM 284,2,2000
+AT$APP PARAM 284,3,2000
+AT$APP PARAM 285,0,30000
+AT$APP PARAM 285,1,30000
+AT$APP PARAM 285,2,30000
+AT$APP PARAM 285,3,30000
+AT$APP PARAM 1024,54,2
+AT$APP PARAM 1024,5,67

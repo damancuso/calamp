@@ -1,0 +1,15 @@
+AT$APP PARAM 265,14,480 			//Timer 14 a 480 s
+AT$APP PARAM 265,15,120 			//Timer 15 a 120 s
+
+AT$APP PARAM 512,120,4,7,0,0,32,10,0,0 		//Encendido o despierto -> Badera 10 = 0
+
+AT$APP PARAM 512,121,70,1,0,0,17,14,0,0 	//Trigger 70 -> Cuenta una vez el timer 14
+AT$APP PARAM 512,122,18,14,50,0,1,36,0,0	//Timer 14 llegó a 0 y Condición 50 -> Envía reporte 36
+AT$APP PARAM 512,123,18,14,50,0,2,36,0,0	//Timer 14 llegó a 0 y Condición 50 -> Envía reporte al LOG 36
+AT$APP PARAM 512,124,18,14,50,0,8,2,0,0 	//Timer 14 llegó a 0 y Condición 50 -> Activa salida 2
+AT$APP PARAM 512,125,18,14,50,0,31,10,0,0	//Timer 14 llegó a 0 y Condición 50 -> Bandera 10 = 1
+
+AT$APP PARAM 512,126,70,0,16,10,17,15,0,0	//Trigger 70 y Bandera 10 = 1 -> Cuenta una vez el timer 15
+AT$APP PARAM 512,127,18,15,178,0,9,2,0,0	//Timer 15 llegó a 0 y NOT Condición 50 -> Desactiva salida 2
+AT$APP PARAM 512,128,18,15,178,0,1,37,0,0	//Timer 15 llegó a 0 y NOT condición 50 -> Envía reporte 37
+AT$APP PARAM 512,129,18,15,178,0,32,10,0,0	//Timer 15 llegó a 0 y NOT Condición 50 -> Bandera 10 = 0
